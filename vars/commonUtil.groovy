@@ -1,9 +1,9 @@
 import java.time.*
 import java.time.format.DateTimeFormatter
 
-def generateTagForRepo(TAG_PREFIX) 
+def generateTagForRepo(TAG_PREFIX)
 {
-    
+
     def now = LocalDateTime.now()
     def buildDate = now.format(DateTimeFormatter.ofPattern("yy.MM"))
     def buildNumber = currentBuild.number
@@ -28,7 +28,7 @@ def setBaseEnv()
 }
 
 
-def loadConfiguration(PATH) 
+def loadConfiguration(PATH)
 {
     properties = new Properties()
     def propertiesFile = new File(PATH)
@@ -37,7 +37,7 @@ def loadConfiguration(PATH)
     for(Object k:keys){
         String key = (String)k;
         String value =(String) properties.getProperty(key)
-      
+
         env."${key}" = "${value}"
     }
 }
@@ -48,16 +48,17 @@ def downloadSourceCode(USE_TAG){
             def gitUtil = new gitUtility()
             gitUtil.getGITSource(env.SOURCE_REPO,env.SOURCE_CREDS,USE_TAG)
         }
-        
+
     }
     else if ( env.SCM_TYPE == "RTC" ) {
         dir(env.CURAM_DIR) {
-            // TODO : create appropriate util for RTC 
+            def rtcUtil = new rtcUtil()
+            rtcUtil.test("METS (ccm)")
         }
-	
+
     }
     else {
-    
+
         // Implement custom code repo retrieval
 
     }
@@ -68,7 +69,7 @@ def getRTCSource(SOURCE_REPO,CRED_SOURCE)
 {
 
 }
-def buildCommand(BUILD_FOLDER,COMMAND) 
+def buildCommand(BUILD_FOLDER,COMMAND)
 {
     dir(BUILD_FOLDER){
         sh """
@@ -84,7 +85,7 @@ def buildCommand(BUILD_FOLDER,COMMAND)
 
 def dockerlogin()
 {
-    withCredentials([usernamePassword(credentialsId: env.DOCKER_CREDS, passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_REG')]) 
+    withCredentials([usernamePassword(credentialsId: env.DOCKER_CREDS, passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_REG')])
     {
         echo "Logging into docker repo"
         sh """ docker login ${env.DOCKER_REGISTRY} -u=$DOCKER_REG -p=$DOCKER_PASS """
@@ -109,11 +110,11 @@ def dockerbuild(IMAGE,FILE,tagName,BUILD_ARG)
 		}
 	    }
 	}
-	
+
 }
 
 def dockerpush(IMAGE,tagName)
-{ 
+{
     echo "push ${IMAGE} image"
     sh """docker push  ${CURAM_IMAGES}/${IMAGE}:${tagName}"""
 }
@@ -121,7 +122,7 @@ def dockerpush(IMAGE,tagName)
 def scale(POD_NAME)
 {
     sh """ kubectl scale --replicas=0 ${POD_NAME} --kubeconfig ~/kubeconfig """
-}	
+}
 
 
 def updateProperties(UPDATE_FILE_PATH,PREFIX_PROPERTY){
@@ -133,22 +134,22 @@ def updateProperties(UPDATE_FILE_PATH,PREFIX_PROPERTY){
         def properties = new Properties()
         File propertiesFile = new File(JOB_CONFIG)
         properties.load(propertiesFile.newDataInputStream())
-        
+
         echo " reading Bootstrap properties"
-      
+
         def updateFileproperties = new Properties()
-    
+
         File readPropFile = new File(UPDATE_FILE_PATH)
         updateFileproperties.load(readPropFile.newDataInputStream())
         def appserverProperties = new Properties()
-       
+
         echo "changing properties in ${UPDATE_FILE_PATH}"
         Set<Object> keys = properties.keySet();
-        
+
 
         for(Object k:keys){
             String key = (String)k;
-            
+
             if(key.startsWith(PREFIX_PROPERTY)){
                 String splitKey = key.substring(PREFIX_PROPERTY.length())
                 String value = properties.getProperty(key)
@@ -177,6 +178,3 @@ def tagOnComplete(){
     }
 
 }
-
-	
-
