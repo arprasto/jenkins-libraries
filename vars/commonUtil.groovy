@@ -52,8 +52,9 @@ def downloadSourceCode(USE_TAG){
     }
     else if ( env.SCM_TYPE == "RTC" ) {
         dir(env.CURAM_DIR) {
+            println System.getProperty("java.ext.dirs")
             def rtcUtil = new rtcUtil()
-            rtcUtil.test("METS (ccm)")
+            rtcUtil.test(params.SRC_PROJECT_NAME)
         }
 
     }
