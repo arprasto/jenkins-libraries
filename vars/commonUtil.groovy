@@ -39,7 +39,6 @@ def loadConfiguration(PATH)
         String value =(String) properties.getProperty(key)
         env."${key}" = "${value}"
     }
-    env.JARDIR = System.getProperty("java.ext.dirs")
 }
 
 def downloadSourceCode(USE_TAG){
@@ -52,8 +51,7 @@ def downloadSourceCode(USE_TAG){
     }
     else if ( env.SCM_TYPE == "RTC" ) {
         dir(env.CURAM_DIR) {
-            def rtcUtil = new rtcUtil()
-            rtcUtil.test(params.SRC_PROJECT_NAME)
+
         }
 
     }
