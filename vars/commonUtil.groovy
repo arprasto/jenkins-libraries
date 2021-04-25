@@ -38,6 +38,7 @@ def setBaseEnv()
     env.DOCMAKER_HOME="${env.CURAM_DIR}/DocMaker"
     env.SDEJ_BUILDFILE="${env.SERVER_DIR}/components/MnHix/scripts/build.xml"
     env.LANG="${env.LANG}"
+    env.JAVA_HOME="${env.JAVA_HOME}"
 }
 
 
@@ -178,6 +179,53 @@ def updateProperties(UPDATE_FILE_PATH,PREFIX_PROPERTY){
 
         echo "NO property file found or property file with the wrong name,using existing properties"
 
+    }
+}
+
+def updateBootstrapProperties(PROPERTY,VALUE){
+    try{
+        def bootstrapPath = "${env.checkoutPath}/Curam/EJBServer/project/properties/Bootstrap.properties"
+
+        //read existing bootstrap
+        def properties = new Properties()
+        File propertiesFile = new File(bootstrapPath)
+        properties.load(propertiesFile.newDataInputStream())
+        echo " reading Bootstrap properties ${bootstrapPath}"
+
+
+        def UPDATE_FILE_PATH = "${env.checkoutPath}/Curam/EJBServer/project/properties/Bootstrap_tmp.properties"
+
+        //create tmp properties file
+        def updateFileproperties = new Properties()
+        //File readPropFile = new File(UPDATE_FILE_PATH)
+        //updateFileproperties.load(readPropFile.newDataInputStream())
+
+        echo "changing properties in ${UPDATE_FILE_PATH}"
+        Set<Object> keys = properties.keySet();
+
+        for(Object k:keys){
+            String key = (String)k;
+
+            if(key.startsWith(PROPERTY)){
+                String splitKey = key.substring(PROPERTY.length())
+                String value = properties.getProperty(key)
+                echo " setting ${splitKey} with value ${VALUE} "
+                updateFileproperties.setProperty(splitKey, VALUE)
+            }else{
+                String value = properties.getProperty(key)
+                updateFileproperties.setProperty(key, value)
+            }
+        }
+        echo "Writing file Bootstrap"
+        File writeFileOut = new File(UPDATE_FILE_PATH)
+        updateFileproperties.store(writeFileOut.newWriter(),null)
+        //Date latestdate = new Date();
+        //def latestLongTime = latestdate.getTime();
+        //sh """ mv ${bootstrapPath} ${bootstrapPath}_${latestLongTime} """
+        sh """ rm -rf ${bootstrapPath} """
+        sh """ mv ${UPDATE_FILE_PATH} ${bootstrapPath} """
+    }  catch(FileNotFoundException ex) {
+        echo "NO property file found or property file with the wrong name,using existing properties"
     }
 }
 
