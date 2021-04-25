@@ -233,8 +233,8 @@ public class CustomProperties extends Properties {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         while(iss.hasNext()) {
-            out.write(iss.nextLine().replace("\\","\\\\").getBytes());
-            out.write("\n".getBytes());
+            out.println(iss.nextLine().replace("\\","\\\\").getBytes());
+            out.println("\n".getBytes());
         }
 
         InputStream is = new ByteArrayInputStream(out.toByteArray());
