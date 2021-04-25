@@ -1,7 +1,8 @@
-import java.nio.file.Files
+import java.io.File
 
 def call(CHECKOUT_PATH){
-if (Files.exists("${CHECKOUT_PATH}")){
+def File f = new File(CHECKOUT_PATH);
+if ("${file.isDirectory()}".matches("True")){
 echo "folder already exists ${CHECKOUT_PATH}"
 }
 else{
