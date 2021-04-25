@@ -25,6 +25,19 @@ def setBaseEnv()
     env.SERVER_DIR="${env.CURAM_DIR}/EJBServer"
     env.CLIENT_DIR="${env.CURAM_DIR}/webclient"
     env.PATH="${env.PATH}:${env.HELM_HOME}"
+
+    env.SERVER_LOCALE_LIST="${env.SERVER_LOCALE_LIST}"
+    env.LOCALE_LIST="${env.LOCALE_LIST}"
+    env.SERVER_MODEL_NAME="${env.SERVER_MODEL_NAME}"
+    env.CURAM_DIR="${env.checkoutPath}/Curam"
+    env.SERVER_DIR="${env.CURAM_DIR}/EJBServer"
+    env.CURAMSDEJ="${env.CURAM_DIR}/CuramSDEJ"
+    env.CLIENT_PROJECT_NAME="${env.SERVER_MODEL_NAME}"
+    env.CLIENT_DIR="${env.CURAM_DIR}/webclient"
+    env.CURAMCDEJ="${env.CURAM_DIR}/CuramCDEJ"
+    env.DOCMAKER_HOME="${env.CURAM_DIR}/DocMaker"
+    env.SDEJ_BUILDFILE="${env.SERVER_DIR}/components/MnHix/scripts/build.xml"
+    env.LANG="${env.LANG}"
 }
 
 
