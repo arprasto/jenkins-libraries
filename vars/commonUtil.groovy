@@ -1,21 +1,5 @@
 import java.time.*
 import java.time.format.DateTimeFormatter
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.Writer;
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
 
 def generateTagForRepo(TAG_PREFIX)
 {
@@ -212,8 +196,8 @@ def updateBootstrapProperties(PROPERTY,VALUE){
         File propertiesFile = new File(bootstrapPath)
         properties.load(propertiesFile.newDataInputStream())
         echo "setting ${PROPERTY}=${VALUE}"
-        properties.setProperty(PROPERTY,VALUE.toString().replace("\\","\\\\"))
-        properties.store(propertiesFile.newWriter(),null)
+        properties.setProperty(PROPERTY,VALUE)
+        properties.store(propertiesFile.newWriter("UTF-8"),null)
     }  catch(FileNotFoundException ex) {
         echo "NO property file found or property file with the wrong name,using existing properties"
     }
