@@ -212,7 +212,14 @@ def updateBootstrapProperties(PROPERTY,VALUE){
         properties.load(propertiesFile.newDataInputStream())
         echo "setting ${PROPERTY}=${VALUE}"
         properties.setProperty("${PROPERTY}","${VALUE}")
-        properties.store(propertiesFile.newWriter(),null)
+        //properties.store(propertiesFile.getWriter(),null)
+        PrintWriter out = new PrintWriter( propertiesFile.getWriter() )
+        Set<String> keys = properties.keySet()
+        for( String key : listOrderedKey ) {
+            String newValue = properties.getProperty(key)
+            out.println( key+"="+newValue  )
+            }
+        out.close()
     }  catch(FileNotFoundException ex) {
         echo "NO property file found or property file with the wrong name,using existing properties"
     }
@@ -226,20 +233,3 @@ def tagOnComplete(){
     }
 
 }
-
-public class NetbeansProperties extends Properties {
-    public void store(Writer writer, String comments) throws IOException {
-        PrintWriter out = new PrintWriter( writer );
-        if( comments != null ) {
-            out.print( '#' );
-            out.println( comments );
-        }//if
-        List<String> listOrderedKey = new ArrayList<String>();
-        listOrderedKey.addAll( this.stringPropertyNames() );
-        Collections.sort(listOrderedKey );
-        for( String key : listOrderedKey ) {
-            String newValue = this.getProperty(key);
-            out.println( key+"="+newValue  );
-       }//for
-    }//met
-}//class
