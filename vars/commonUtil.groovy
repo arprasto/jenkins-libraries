@@ -212,11 +212,11 @@ def updateBootstrapProperties(PROPERTY,VALUE){
                 String splitKey = key.substring(PROPERTY.length())
                 String value = properties.getProperty(key)
                 echo "setting ${key} with value ${VALUE}"
-                updateFileproperties.setProperty(key, VALUE)
+                updateFileproperties.setProperty(PROPERTY, VALUE)
             }else{
                 String value = properties.getProperty(key)
                 echo "setting ${key} with value ${value}"
-                updateFileproperties.setProperty(key, value)
+                updateFileproperties.setProperty(PROPERTY, value)
             }
         }
         File writeFileOut = new File(UPDATE_FILE_PATH)
