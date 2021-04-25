@@ -215,7 +215,7 @@ def updateBootstrapProperties(PROPERTY,VALUE){
         //properties.store(propertiesFile.newWriter("UTF-8"),null)
         PrintWriter out = new PrintWriter( propertiesFile.newWriter("UTF-8") )
         Set<String> keys = properties.keySet()
-        for( String key : listOrderedKey ) {
+        for( String key : keys ) {
             String newValue = properties.getProperty(key)
             out.println( key+"="+newValue  )
             }
