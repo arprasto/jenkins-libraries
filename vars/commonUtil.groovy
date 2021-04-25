@@ -207,7 +207,7 @@ def updateBootstrapProperties(PROPERTY,VALUE){
         sh """ echo ''>${bootstrapPath} """
         }
 
-        def properties = new NetbeansProperties()
+        def properties = new Properties()
         File propertiesFile = new File(bootstrapPath)
         properties.load(propertiesFile.newDataInputStream())
         echo "setting ${PROPERTY}=${VALUE}"
