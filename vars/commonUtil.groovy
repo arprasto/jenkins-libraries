@@ -211,7 +211,7 @@ def updateBootstrapProperties(PROPERTY,VALUE){
         CustomProperties properties = new CustomProperties()
         File propertiesFile = new File(bootstrapPath)
         properties.load(new FileInputStream(propertiesFile))
-        properties.setProperty(PROPERTY, VALUE)
+        properties.setProperty(PROPERTY, VALUE.replace("\\","\\\\"))
         properties.store(new FileOutputStream(propertiesFile),null)
     }  catch(FileNotFoundException ex) {
         echo "NO property file found or property file with the wrong name,using existing properties"
