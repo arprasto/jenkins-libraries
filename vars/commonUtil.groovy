@@ -197,7 +197,7 @@ def updateBootstrapProperties(PROPERTY,VALUE){
         properties.load(propertiesFile.newDataInputStream())
         echo "setting ${PROPERTY}=${VALUE}"
         properties.setProperty(PROPERTY,VALUE)
-        properties.store(propertiesFile.newWriter("UTF-8"),null)
+        properties.store(propertiesFile.newWriter("ISO-8859-1"),null)
     }  catch(FileNotFoundException ex) {
         echo "NO property file found or property file with the wrong name,using existing properties"
     }
