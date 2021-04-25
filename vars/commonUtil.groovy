@@ -207,7 +207,7 @@ def updateBootstrapProperties(PROPERTY,VALUE){
         sh """ echo ''>${bootstrapPath} """
         }
 
-        def properties = new CustomProperties()
+        CustomProperties properties = new CustomProperties()
         File propertiesFile = new File(bootstrapPath)
         properties.load(new FileInputStream(propertiesFile))
         properties.setProperty(PROPERTY, VALUE)
