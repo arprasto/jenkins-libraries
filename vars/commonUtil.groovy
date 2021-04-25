@@ -207,11 +207,11 @@ def updateBootstrapProperties(PROPERTY,VALUE){
         sh """ echo ''>${bootstrapPath} """
         }
 
-        def properties = new Properties()
+        def properties = new CustomProperties()
         File propertiesFile = new File(bootstrapPath)
-        properties.load(propertiesFile.newDataInputStream())
-        properties.setProperty(PROPERTY, VALUE.replace("\\",""))
-        properties.store(propertiesFile.newWriter(),null)
+        properties.load(new FileInputStream(propertiesFile))
+        properties.setProperty(PROPERTY, VALUE)
+        properties.store(new FileOutputStream(propertiesFile),null)
     }  catch(FileNotFoundException ex) {
         echo "NO property file found or property file with the wrong name,using existing properties"
     }
@@ -228,24 +228,18 @@ def tagOnComplete(){
 
 public class CustomProperties extends Properties {
     @Override
-    public synchronized void load(Reader reader) throws IOException {
-        BufferedReader bfr = new BufferedReader( reader );
+    public void load(FileInputStream fis) throws IOException {
+        Scanner in = new Scanner(fis);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-        String readLine = null;
-        while( (readLine = bfr.readLine()) != null ) {
-            out.write(readLine.replace("\\","\\\\").getBytes());
+        while(in.hasNext()) {
+            out.write(in.nextLine().replace("\\","\\\\").getBytes());
             out.write("\n".getBytes());
-        }//while
+        }
 
         InputStream is = new ByteArrayInputStream(out.toByteArray());
         super.load(is);
-    }//met
-
-    @Override
-    public void load(InputStream is) throws IOException {
-        load( new InputStreamReader( is ) );
-    }//met
+    }
 
     @Override
     public void store(Writer writer, String comments) throws IOException {
