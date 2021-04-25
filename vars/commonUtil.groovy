@@ -195,29 +195,7 @@ def updateBootstrapProperties(PROPERTY,VALUE){
         //read existing bootstrap
         def properties = new Properties()
         File propertiesFile = new File(bootstrapPath)
-        properties.load(propertiesFile.newDataInputStream())
-
-        Set<String> keys = properties.keySet();
-        boolean propertyfound=false;
-        for(Object k:keys){
-            String key = (String)k;
-
-            if(key.startsWith(PROPERTY)){
-                propertyfound = true;
-                String splitKey = key.substring(PROPERTY.length())
-                String value = properties.getProperty(key)
-                //echo "setting ${key} with value ${VALUE}"
-                properties.setProperty(key, VALUE)
-            }else{
-                String value = properties.getProperty(key)
-                //echo "setting ${key} with value ${value}"
-                properties.setProperty(PROPERTY, value)
-            }
-        }
-        if(!propertyfound)
-            {
-            properties.setProperty(PROPERTY, VALUE)
-            }
+        properties.setProperty(PROPERTY, VALUE)
         properties.store(propertiesFile.newWriter(),null)
     }  catch(FileNotFoundException ex) {
         echo "NO property file found or property file with the wrong name,using existing properties"
