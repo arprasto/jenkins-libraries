@@ -197,12 +197,6 @@ def updateBootstrapProperties(PROPERTY,VALUE){
         File propertiesFile = new File(bootstrapPath)
         properties.load(propertiesFile.newDataInputStream())
 
-
-        def UPDATE_FILE_PATH = "${env.checkoutPath}/Curam/EJBServer/project/properties/Bootstrap_tmp.properties"
-
-        //create tmp properties file
-        def updateFileproperties = new Properties()
-
         Set<String> keys = properties.keySet();
         boolean propertyfound=false;
         for(Object k:keys){
@@ -213,24 +207,18 @@ def updateBootstrapProperties(PROPERTY,VALUE){
                 String splitKey = key.substring(PROPERTY.length())
                 String value = properties.getProperty(key)
                 echo "setting ${key} with value ${VALUE}"
-                updateFileproperties.setProperty(key, VALUE)
+                properties.setProperty(key, VALUE)
             }else{
                 String value = properties.getProperty(key)
                 echo "setting ${key} with value ${value}"
-                updateFileproperties.setProperty(PROPERTY, value)
+                properties.setProperty(PROPERTY, value)
             }
         }
         if(!propertyfound)
             {
-            updateFileproperties.setProperty(PROPERTY, VALUE)
+            properties.setProperty(PROPERTY, VALUE)
             }
-        File writeFileOut = new File(UPDATE_FILE_PATH)
-        updateFileproperties.store(writeFileOut.newWriter(),null)
-        //Date latestdate = new Date();
-        //def latestLongTime = latestdate.getTime();
-        //sh """ mv ${bootstrapPath} ${bootstrapPath}_${latestLongTime} """
-        sh """ rm -rf ${bootstrapPath} """
-        sh """ mv ${UPDATE_FILE_PATH} ${bootstrapPath} """
+        properties.store(propertiesFile.newWriter(),null)
     }  catch(FileNotFoundException ex) {
         echo "NO property file found or property file with the wrong name,using existing properties"
     }
