@@ -188,7 +188,7 @@ def updateBootstrapProperties(PROPERTY,VALUE){
 
         def File f = new File(bootstrapPath);
         if (!f.exists()){
-        echo "creating file ${bootstrapPath}"
+        //echo "creating file ${bootstrapPath}"
         sh """ echo ''>${bootstrapPath} """
         }
 
@@ -206,11 +206,11 @@ def updateBootstrapProperties(PROPERTY,VALUE){
                 propertyfound = true;
                 String splitKey = key.substring(PROPERTY.length())
                 String value = properties.getProperty(key)
-                echo "setting ${key} with value ${VALUE}"
+                //echo "setting ${key} with value ${VALUE}"
                 properties.setProperty(key, VALUE)
             }else{
                 String value = properties.getProperty(key)
-                echo "setting ${key} with value ${value}"
+                //echo "setting ${key} with value ${value}"
                 properties.setProperty(PROPERTY, value)
             }
         }
