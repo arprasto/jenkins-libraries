@@ -1,7 +1,7 @@
 import java.nio.file.Files
 
 def call(CHECKOUT_PATH){
-if (Files.exists(CHECKOUT_PATH)){
+if (Files.exists("${CHECKOUT_PATH}")){
 echo "folder already exists ${CHECKOUT_PATH}"
 }
 else{
