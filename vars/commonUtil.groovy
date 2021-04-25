@@ -241,23 +241,23 @@ public class CustomProperties extends Properties {
         super.load(is);
     }
 
-    @Override
+    /*@Override
     public void store(Writer writer, String comments) throws IOException {
         PrintWriter out = new PrintWriter( writer );
         if( comments != null ) {
             out.print( '#' );
             out.println( comments );
-        }//if
+        }
         List<String> listOrderedKey = new ArrayList<String>();
         listOrderedKey.addAll( this.stringPropertyNames() );
         Collections.sort(listOrderedKey );
         for( String key : listOrderedKey ) {
             String newValue = this.getProperty(key);
             out.println( key+"="+newValue  );
-       }//for
-    }//met
+       }
+    }
 
     public void store(FileOutputStream out, String comments) throws IOException {
         store( new OutputStreamWriter(out), comments );
-    }//met
+    }*/
 }//class
