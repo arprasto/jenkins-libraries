@@ -207,16 +207,16 @@ def updateBootstrapProperties(PROPERTY,VALUE){
                 String splitKey = key.substring(PROPERTY.length())
                 String value = properties.getProperty(key)
                 echo "setting ${key} with value ${VALUE}"
-                properties.setProperty(key, VALUE)
+                properties.setProperty(key, ${VALUE})
             }else{
                 String value = properties.getProperty(key)
                 echo "setting ${key} with value ${value}"
-                properties.setProperty(PROPERTY, value)
+                properties.setProperty(PROPERTY, ${value})
             }
         }
         if(!propertyfound)
             {
-            properties.setProperty(PROPERTY, VALUE)
+            properties.setProperty(PROPERTY, ${VALUE})
             }
         properties.store(propertiesFile.newWriter(),null)
     }  catch(FileNotFoundException ex) {
