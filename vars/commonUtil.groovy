@@ -190,17 +190,13 @@ def updateBootstrapProperties(PROPERTY,VALUE){
         def properties = new Properties()
         File propertiesFile = new File(bootstrapPath)
         properties.load(propertiesFile.newDataInputStream())
-        echo " reading Bootstrap properties ${bootstrapPath}"
 
 
         def UPDATE_FILE_PATH = "${env.checkoutPath}/Curam/EJBServer/project/properties/Bootstrap_tmp.properties"
 
         //create tmp properties file
         def updateFileproperties = new Properties()
-        //File readPropFile = new File(UPDATE_FILE_PATH)
-        //updateFileproperties.load(readPropFile.newDataInputStream())
 
-        echo "changing properties in ${UPDATE_FILE_PATH}"
         Set<Object> keys = properties.keySet();
 
         for(Object k:keys){
@@ -209,14 +205,14 @@ def updateBootstrapProperties(PROPERTY,VALUE){
             if(key.startsWith(PROPERTY)){
                 String splitKey = key.substring(PROPERTY.length())
                 String value = properties.getProperty(key)
-                echo " setting ${splitKey} with value ${VALUE} "
-                updateFileproperties.setProperty(splitKey, VALUE)
+                echo "setting ${key} with value ${VALUE}"
+                updateFileproperties.setProperty(key, VALUE)
             }else{
                 String value = properties.getProperty(key)
+                echo "setting ${key} with value ${value}"
                 updateFileproperties.setProperty(key, value)
             }
         }
-        echo "Writing file Bootstrap"
         File writeFileOut = new File(UPDATE_FILE_PATH)
         updateFileproperties.store(writeFileOut.newWriter(),null)
         //Date latestdate = new Date();
