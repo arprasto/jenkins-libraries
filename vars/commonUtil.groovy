@@ -230,11 +230,11 @@ def tagOnComplete(){
 public class CustomProperties extends Properties {
     @Override
     public void load(FileInputStream fis) throws IOException {
-        Scanner in = new Scanner(fis);
+        Scanner iss= new Scanner(fis);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-        while(in.hasNext()) {
-            out.write(in.nextLine().replace("\\","\\\\").getBytes());
+        while(iss.hasNext()) {
+            out.write(iss.nextLine().replace("\\","\\\\").getBytes());
             out.write("\n".getBytes());
         }
 
