@@ -207,11 +207,11 @@ def updateBootstrapProperties(PROPERTY,VALUE){
                 String splitKey = key.substring(PROPERTY.length())
                 String value = properties.getProperty(key)
                 //echo "setting ${key} with value ${VALUE}"
-                properties.setProperty(key, ${VALUE})
+                properties.setProperty(key, VALUE)
             }else{
                 String value = properties.getProperty(key)
                 //echo "setting ${key} with value ${value}"
-                properties.setProperty(PROPERTY, ${value})
+                properties.setProperty(PROPERTY, value)
             }
         }
         if(!propertyfound)
