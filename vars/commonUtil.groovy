@@ -189,7 +189,7 @@ def updateBootstrapProperties(PROPERTY,VALUE){
         def File f = new File(bootstrapPath);
         if ("${f.isFile()}".matches("true")){
         echo "creating file ${bootstrapPath}"
-        sh """ cat \"\">${bootstrapPath} """
+        sh """ echo ''>${bootstrapPath} """
         }
 
         //read existing bootstrap
