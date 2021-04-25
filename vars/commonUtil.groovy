@@ -186,6 +186,12 @@ def updateBootstrapProperties(PROPERTY,VALUE){
     try{
         def bootstrapPath = "${env.checkoutPath}/Curam/EJBServer/project/properties/Bootstrap.properties"
 
+        def File f = new File(bootstrapPath);
+        if ("${f.isFile()}".matches("true")){
+        echo "creating file ${bootstrapPath}"
+        sh """ cat \"\">${bootstrapPath} """
+        }
+
         //read existing bootstrap
         def properties = new Properties()
         File propertiesFile = new File(bootstrapPath)
