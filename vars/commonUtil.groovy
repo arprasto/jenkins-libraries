@@ -212,8 +212,8 @@ def updateBootstrapProperties(PROPERTY,VALUE){
         properties.load(propertiesFile.newDataInputStream())
         echo "setting ${PROPERTY}=${VALUE}"
         properties.setProperty("${PROPERTY}","${VALUE}")
-        //properties.store(propertiesFile.getWriter(),null)
-        PrintWriter out = new PrintWriter( propertiesFile.getWriter() )
+        //properties.store(propertiesFile.newWriter("UTF-8"),null)
+        PrintWriter out = new PrintWriter( propertiesFile.newWriter("UTF-8") )
         Set<String> keys = properties.keySet()
         for( String key : listOrderedKey ) {
             String newValue = properties.getProperty(key)
