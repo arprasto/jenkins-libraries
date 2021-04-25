@@ -194,16 +194,17 @@ def updateBootstrapProperties(PROPERTY,VALUE){
 
         //read existing bootstrap
         def properties = new Properties()
+        def updatedprops = new Properties()
         File propertiesFile = new File(bootstrapPath)
         properties.load(propertiesFile.newDataInputStream())
         properties.setProperty(PROPERTY, VALUE)
-        propsFile.withWriterAppend( 'UTF-8' ) { fileWriter ->
+        updatedprops.withWriterAppend( 'UTF-8' ) { fileWriter ->
             fileWriter.writeLine ''
             properties.each { key, value ->
                 fileWriter.writeLine "$key=$value"
             }
         }
-        properties.store(propertiesFile.newWriter(),null)
+        updatedprops.store(propertiesFile.newWriter(),null)
     }  catch(FileNotFoundException ex) {
         echo "NO property file found or property file with the wrong name,using existing properties"
     }
