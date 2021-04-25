@@ -1,5 +1,20 @@
 import java.time.*
 import java.time.format.DateTimeFormatter
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
 
 def generateTagForRepo(TAG_PREFIX)
 {
@@ -192,19 +207,11 @@ def updateBootstrapProperties(PROPERTY,VALUE){
         sh """ echo ''>${bootstrapPath} """
         }
 
-        //read existing bootstrap
-        def properties = new Properties()
-        def updatedprops = new Properties()
+        CustomProperties properties = new CustomProperties()
         File propertiesFile = new File(bootstrapPath)
         properties.load(propertiesFile.newDataInputStream())
         properties.setProperty(PROPERTY, VALUE)
-        updatedprops.withWriterAppend( 'UTF-8' ) { fileWriter ->
-            fileWriter.writeLine ''
-            properties.each { key, value ->
-                fileWriter.writeLine "$key=$value"
-            }
-        }
-        updatedprops.store(propertiesFile.newWriter(),null)
+        properties.store(propertiesFile.newWriter(),null)
     }  catch(FileNotFoundException ex) {
         echo "NO property file found or property file with the wrong name,using existing properties"
     }
@@ -218,3 +225,46 @@ def tagOnComplete(){
     }
 
 }
+
+public class CustomProperties extends Properties {
+    @Override
+    public synchronized void load(Reader reader) throws IOException {
+        BufferedReader bfr = new BufferedReader( reader );
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        String readLine = null;
+        while( (readLine = bfr.readLine()) != null ) {
+            out.write(readLine.replace("\\","\\\\").getBytes());
+            out.write("\n".getBytes());
+        }//while
+
+        InputStream is = new ByteArrayInputStream(out.toByteArray());
+        super.load(is);
+    }//met
+
+    @Override
+    public void load(InputStream is) throws IOException {
+        load( new InputStreamReader( is ) );
+    }//met
+
+    @Override
+    public void store(Writer writer, String comments) throws IOException {
+        PrintWriter out = new PrintWriter( writer );
+        if( comments != null ) {
+            out.print( '#' );
+            out.println( comments );
+        }//if
+        List<String> listOrderedKey = new ArrayList<String>();
+        listOrderedKey.addAll( this.stringPropertyNames() );
+        Collections.sort(listOrderedKey );
+        for( String key : listOrderedKey ) {
+            String newValue = this.getProperty(key);
+            out.println( key+"="+newValue  );
+       }//for
+    }//met
+
+    @Override
+    public void store(OutputStream out, String comments) throws IOException {
+        store( new OutputStreamWriter(out), comments );
+    }//met
+}//class
