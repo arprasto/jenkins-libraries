@@ -208,11 +208,11 @@ def updateBootstrapProperties(PROPERTY,VALUE){
         sh """ echo ''>${bootstrapPath} """
         }
 
-        CustomProperties properties = new CustomProperties()
+        def properties = new Properties()
         File propertiesFile = new File(bootstrapPath)
-        properties.load(new FileInputStream(propertiesFile))
-        properties.setProperty(PROPERTY, VALUE.replace("\\","\\\\"))
-        properties.store(new FileOutputStream(propertiesFile),null)
+        properties.load(propertiesFile.newDataInputStream())
+        properties.setProperty(PROPERTY,VALUE.toString().replace("\\","\\\\"))
+        properties.store(propertiesFile.newWriter(),null)
     }  catch(FileNotFoundException ex) {
         echo "NO property file found or property file with the wrong name,using existing properties"
     }
@@ -226,38 +226,3 @@ def tagOnComplete(){
     }
 
 }
-
-public class CustomProperties extends Properties {
-    public void load(FileInputStream fis) throws IOException {
-        Scanner iss= new Scanner(fis);
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-        while(iss.hasNext()) {
-            out.println(iss.nextLine().replace("\\","\\\\").getBytes());
-            out.println("\n".getBytes());
-        }
-
-        InputStream is = new ByteArrayInputStream(out.toByteArray());
-        super.load(is);
-    }
-
-    /*@Override
-    public void store(Writer writer, String comments) throws IOException {
-        PrintWriter out = new PrintWriter( writer );
-        if( comments != null ) {
-            out.print( '#' );
-            out.println( comments );
-        }
-        List<String> listOrderedKey = new ArrayList<String>();
-        listOrderedKey.addAll( this.stringPropertyNames() );
-        Collections.sort(listOrderedKey );
-        for( String key : listOrderedKey ) {
-            String newValue = this.getProperty(key);
-            out.println( key+"="+newValue  );
-       }
-    }
-
-    public void store(FileOutputStream out, String comments) throws IOException {
-        store( new OutputStreamWriter(out), comments );
-    }*/
-}//class
