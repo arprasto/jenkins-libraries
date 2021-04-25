@@ -228,7 +228,6 @@ def tagOnComplete(){
 }
 
 public class CustomProperties extends Properties {
-    @Override
     public void load(FileInputStream fis) throws IOException {
         Scanner iss= new Scanner(fis);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
