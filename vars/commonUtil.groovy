@@ -195,6 +195,7 @@ def updateBootstrapProperties(PROPERTY,VALUE){
         //read existing bootstrap
         def properties = new Properties()
         File propertiesFile = new File(bootstrapPath)
+        properties.load(propertiesFile.newDataInputStream())
         properties.setProperty(PROPERTY, VALUE)
         properties.store(propertiesFile.newWriter(),null)
     }  catch(FileNotFoundException ex) {
