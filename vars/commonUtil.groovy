@@ -258,7 +258,7 @@ public class CustomProperties extends Properties {
     }//met
 
     @Override
-    public void store(OutputStream out, String comments) throws IOException {
+    public void store(FileOutputStream out, String comments) throws IOException {
         store( new OutputStreamWriter(out), comments );
     }//met
 }//class
