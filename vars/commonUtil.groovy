@@ -203,22 +203,27 @@ def updateBootstrapProperties(PROPERTY,VALUE){
         //create tmp properties file
         def updateFileproperties = new Properties()
 
-        Set<Object> keys = properties.keySet();
-
+        Set<String> keys = properties.keySet();
+        boolean propertyfound=false;
         for(Object k:keys){
             String key = (String)k;
 
             if(key.startsWith(PROPERTY)){
+                propertyfound = true;
                 String splitKey = key.substring(PROPERTY.length())
                 String value = properties.getProperty(key)
                 echo "setting ${key} with value ${VALUE}"
-                updateFileproperties.setProperty(PROPERTY, VALUE)
+                updateFileproperties.setProperty(key, VALUE)
             }else{
                 String value = properties.getProperty(key)
                 echo "setting ${key} with value ${value}"
                 updateFileproperties.setProperty(PROPERTY, value)
             }
         }
+        if(!propertyfound)
+            {
+            updateFileproperties.setProperty(PROPERTY, VALUE)
+            }
         File writeFileOut = new File(UPDATE_FILE_PATH)
         updateFileproperties.store(writeFileOut.newWriter(),null)
         //Date latestdate = new Date();
