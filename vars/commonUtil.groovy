@@ -91,11 +91,6 @@ def downloadSourceCode(USE_TAG){
     }
 }
 
-
-def getRTCSource(SOURCE_REPO,CRED_SOURCE)
-{
-
-}
 def buildCommand(BUILD_FOLDER,COMMAND)
 {
     dir(BUILD_FOLDER){
