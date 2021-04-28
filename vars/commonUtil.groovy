@@ -28,18 +28,13 @@ def generateTagForRepo(TAG_PREFIX)
 
 def setBaseEnv()
 {
-    env.CURAM_DIR="${env.WORKSPACE}@2/spm-code"
     env.RESOURCE_HOME="${env.WORKSPACE}@2/spm-resources/devops-jenkins-pipeline"
-    env.JAVAMAIL_HOME="${env.RESOURCE_HOME}/resources/dependencies"
     env.RELEASE_PATH = "${env.WORKSPACE}@2/spm-code/EJBServer/release/"
     env.STATIC_CONTENT= "${env.WORKSPACE}@2/spm-code/webclient/build"
     env.RELEASE_FOLDER="${env.WORKSPACE}@2/resources"
     env.SPM_HOME="${env.WORKSPACE}@2/dockerstage"
     env.BASE_IMAGES="${env.DOCKER_REGISTRY}/${env.BASE_IMAGES_PATH}"
     env.CURAM_IMAGES="${env.DOCKER_REGISTRY}/${env.CURAM_IMAGES_PATH}/${params.BRANCH}"
-    env.SERVER_DIR="${env.CURAM_DIR}/EJBServer"
-    env.CLIENT_DIR="${env.CURAM_DIR}/webclient"
-    env.PATH="${env.PATH}:${env.HELM_HOME}"
 
     env.SERVER_LOCALE_LIST="${env.SERVER_LOCALE_LIST}"
     env.LOCALE_LIST="${env.LOCALE_LIST}"
@@ -53,7 +48,9 @@ def setBaseEnv()
     env.DOCMAKER_HOME="${env.CURAM_DIR}/DocMaker"
     env.SDEJ_BUILDFILE="${env.SERVER_DIR}/components/MnHix/scripts/build.xml"
     env.LANG="${env.LANG}"
-    env.JAVA_HOME="${env.JAVA_HOME}"
+    env.J2EE_JAR="${env.REQUIREDJARS}/j2ee.jar"
+    env.JAVAMAIL_HOME="${env.REQUIREDJARS}"
+    env.PATH="${env.PATH}:${env.HELM_HOME}"
 }
 
 
