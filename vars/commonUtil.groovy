@@ -76,7 +76,7 @@ def downloadSourceCode(USE_TAG){
 
     }
     else if ( env.SCM_TYPE == "RTC" ) {
-        dir(env.CURAM_DIR) {
+        dir(env.checkoutPath) {
 
         }
 
