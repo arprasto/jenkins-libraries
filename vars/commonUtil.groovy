@@ -36,6 +36,10 @@ def setBaseEnv()
     env.BASE_IMAGES="${env.DOCKER_REGISTRY}/${env.BASE_IMAGES_PATH}"
     env.CURAM_IMAGES="${env.DOCKER_REGISTRY}/${env.CURAM_IMAGES_PATH}/${params.BRANCH}"
 
+    //below props are corresponding to spm-builder-image container path
+    env.WORKDIR="/home/workdir"
+    env.J2EE_JAR="/opt/dependencies/j2ee.jar"
+    env.JAVAMAIL_HOME="/opt/dependencies"
     env.SERVER_LOCALE_LIST="${env.SERVER_LOCALE_LIST}"
     env.LOCALE_LIST="${env.LOCALE_LIST}"
     env.SERVER_MODEL_NAME="${env.SERVER_MODEL_NAME}"
@@ -48,9 +52,8 @@ def setBaseEnv()
     env.DOCMAKER_HOME="${env.CURAM_DIR}/DocMaker"
     env.SDEJ_BUILDFILE="${env.SERVER_DIR}/components/MnHix/scripts/build.xml"
     env.LANG="${env.LANG}"
-    env.J2EE_JAR="${env.REQUIREDJARS}/j2ee.jar"
-    env.JAVAMAIL_HOME="${env.REQUIREDJARS}"
     env.PATH="${env.PATH}:${env.HELM_HOME}"
+
 }
 
 
