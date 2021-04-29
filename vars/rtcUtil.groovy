@@ -1,6 +1,7 @@
 
 def checkoutcode(RepositoryWorkspace,checkoutPath,credentialsId,RTCServerURI)
 {
+echo "checking out source code with params : ${RepositoryWorkspace},${checkoutPath},${credentialsId},${RTCServerURI}"
 checkout([$class: 'RTCScm',
 avoidUsingToolkit: false,
 buildTool: '6.0.4',
