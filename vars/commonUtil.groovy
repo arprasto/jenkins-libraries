@@ -29,16 +29,6 @@ def generateTagForRepo(TAG_PREFIX)
 def setBaseEnv()
 {
 
-    //below is to set client and server components orders
-    env.CURAM_DIR="${env.checkoutPath}/Curam"
-    dir("${env.CURAM_DIR}/"){
-      sh """
-          #!/bin/bash
-          chmod +x SetEnvironment.sh
-          ./SetEnvironment.sh
-      """
-    }
-
     env.RESOURCE_HOME="${env.WORKSPACE}@2/spm-resources/devops-jenkins-pipeline"
     env.RELEASE_PATH = "${env.WORKSPACE}@2/spm-code/EJBServer/release/"
     env.STATIC_CONTENT= "${env.WORKSPACE}@2/spm-code/webclient/build"
@@ -48,6 +38,7 @@ def setBaseEnv()
     env.CURAM_IMAGES="${env.DOCKER_REGISTRY}/${env.CURAM_IMAGES_PATH}/${params.BRANCH}"
 
     //below props are corresponding to server builds environment
+    env.CURAM_DIR="${env.checkoutPath}/Curam"
     env.J2EE_JAR="${env.UTILDIR}/dockerfiles/spm-curam-builder/spm-curam-builder/dependencies/j2ee.jar"
     env.JAVAMAIL_HOME="${env.UTILDIR}/dockerfiles/spm-curam-builder/spm-curam-builder/dependencies"
     env.SERVER_LOCALE_LIST="${env.SERVER_LOCALE_LIST}"
@@ -62,6 +53,17 @@ def setBaseEnv()
     env.SDEJ_BUILDFILE="${env.SERVER_DIR}/components/MnHix/scripts/build.xml"
     env.LANG="${env.LANG}"
     env.PATH="${env.PATH}:${env.HELM_HOME}"
+    dir("${env.checkoutPath}/Curam"){
+      sh """
+          #!/bin/bash
+          cat SetEnvironment.sh|grep SERVER_COMPONENT_ORDER>SERVER_COMPONENT_ORDER.sh
+          cat SetEnvironment.sh|grep CLIENT_COMPONENT_ORDER>CLIENT_COMPONENT_ORDER.sh
+          chmod +x *.sh
+          ./SERVER_COMPONENT_ORDER.sh
+          ./CLIENT_COMPONENT_ORDER.sh
+      """
+    }
+
 }
 
 
