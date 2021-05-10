@@ -1,5 +1,5 @@
 def call() {
-    def STD_SERVER_BUILDS = "clean server"
+    def STD_SERVER_BUILDS = "${params.serverBuildCommand}"
     def util = new commonUtil();
     util.SetEnvironment()
 

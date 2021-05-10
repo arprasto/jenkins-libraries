@@ -1,5 +1,5 @@
 def call() {
-    def STD_CLIENT_BUILDS = "clean client external-client -Dapp=CitizenPortal"
+    def STD_CLIENT_BUILDS = "${params.clientBuildCommand}"
     def util = new commonUtil();
     util.SetEnvironment()
 
