@@ -9,8 +9,9 @@ def call() {
       dir("${env.SERVER_DIR}"){
         sh """
             #!/bin/bash
+            echo "continueing with environment"
+            env
             chmod +x build.sh
-            ./build.sh ${STD_SERVER_BUILDS}
         """
       }
     }
