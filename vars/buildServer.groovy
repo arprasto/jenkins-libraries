@@ -1,19 +1,7 @@
 def call() {
     def STD_SERVER_BUILDS = "clean server"
     def util = new commonUtil();
-
-    // build clean server
-
-    dir("${env.checkoutPath}/Curam"){
-      sh """
-          #!/bin/bash
-          cat SetEnvironment.sh|grep SERVER_COMPONENT_ORDER>SERVER_COMPONENT_ORDER.sh
-          cat SetEnvironment.sh|grep CLIENT_COMPONENT_ORDER>CLIENT_COMPONENT_ORDER.sh
-          chmod +x *.sh
-          ./SERVER_COMPONENT_ORDER.sh
-          ./CLIENT_COMPONENT_ORDER.sh
-      """
-    }
+    util.SetEnvironment()
 
     //util.buildCommand(env.SERVER_DIR,STD_SERVER_BUILDS)
     echo "${env.SERVER_DIR}"

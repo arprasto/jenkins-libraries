@@ -37,23 +37,6 @@ def setBaseEnv()
     env.BASE_IMAGES="${env.DOCKER_REGISTRY}/${env.BASE_IMAGES_PATH}"
     env.CURAM_IMAGES="${env.DOCKER_REGISTRY}/${env.CURAM_IMAGES_PATH}/${params.BRANCH}"
 
-    //below props are corresponding to server builds environment
-    env.CURAM_DIR="${env.checkoutPath}/Curam"
-    env.J2EE_JAR="${env.UTILDIR}/dockerfiles/spm-curam-builder/spm-curam-builder/dependencies/j2ee.jar"
-    env.JAVAMAIL_HOME="${env.UTILDIR}/dockerfiles/spm-curam-builder/spm-curam-builder/dependencies"
-    env.SERVER_LOCALE_LIST="${env.SERVER_LOCALE_LIST}"
-    env.LOCALE_LIST="${env.LOCALE_LIST}"
-    env.SERVER_MODEL_NAME="${env.SERVER_MODEL_NAME}"
-    env.SERVER_DIR="${env.CURAM_DIR}/EJBServer"
-    env.CURAMSDEJ="${env.CURAM_DIR}/CuramSDEJ"
-    env.CLIENT_PROJECT_NAME="${env.SERVER_MODEL_NAME}"
-    env.CLIENT_DIR="${env.CURAM_DIR}/webclient"
-    env.CURAMCDEJ="${env.CURAM_DIR}/CuramCDEJ"
-    env.DOCMAKER_HOME="${env.CURAM_DIR}/DocMaker"
-    env.SDEJ_BUILDFILE="${env.SERVER_DIR}/components/MnHix/scripts/build.xml"
-    env.LANG="${env.LANG}"
-    env.PATH="${env.PATH}:${env.HELM_HOME}"
-
 }
 
 
@@ -101,7 +84,35 @@ def buildCommand(BUILD_FOLDER,COMMAND)
     }
 }
 
+def SetEnvironment()
+{
+    env.CURAM_DIR="${env.checkoutPath}/Curam"
+    env.J2EE_JAR="${env.UTILDIR}/dockerfiles/spm-curam-builder/spm-curam-builder/dependencies/j2ee.jar"
+    env.JAVAMAIL_HOME="${env.UTILDIR}/dockerfiles/spm-curam-builder/spm-curam-builder/dependencies"
+    env.SERVER_LOCALE_LIST="${env.SERVER_LOCALE_LIST}"
+    env.LOCALE_LIST="${env.LOCALE_LIST}"
+    env.SERVER_MODEL_NAME="${env.SERVER_MODEL_NAME}"
+    env.SERVER_DIR="${env.CURAM_DIR}/EJBServer"
+    env.CURAMSDEJ="${env.CURAM_DIR}/CuramSDEJ"
+    env.CLIENT_PROJECT_NAME="${env.SERVER_MODEL_NAME}"
+    env.CLIENT_DIR="${env.CURAM_DIR}/webclient"
+    env.CURAMCDEJ="${env.CURAM_DIR}/CuramCDEJ"
+    env.DOCMAKER_HOME="${env.CURAM_DIR}/DocMaker"
+    env.SDEJ_BUILDFILE="${env.SERVER_DIR}/components/MnHix/scripts/build.xml"
+    env.LANG="${env.LANG}"
+    env.PATH="${env.PATH}:${env.HELM_HOME}"
 
+    dir("${env.checkoutPath}/Curam"){
+      sh """
+          #!/bin/bash
+          cat SetEnvironment.sh|grep SERVER_COMPONENT_ORDER>SERVER_COMPONENT_ORDER.sh
+          cat SetEnvironment.sh|grep CLIENT_COMPONENT_ORDER>CLIENT_COMPONENT_ORDER.sh
+          chmod +x *.sh
+          ./SERVER_COMPONENT_ORDER.sh
+          ./CLIENT_COMPONENT_ORDER.sh
+      """
+    }
+}
 
 
 def dockerlogin()
