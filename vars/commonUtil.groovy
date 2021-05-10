@@ -28,6 +28,17 @@ def generateTagForRepo(TAG_PREFIX)
 
 def setBaseEnv()
 {
+
+    //below is to set client and server components orders
+    env.CURAM_DIR="${env.checkoutPath}/Curam"
+    dir("${env.CURAM_DIR}/"){
+      sh """
+          #!/bin/bash
+          chmod +x SetEnvironment.sh
+          ./SetEnvironment.sh
+      """
+    }
+
     env.RESOURCE_HOME="${env.WORKSPACE}@2/spm-resources/devops-jenkins-pipeline"
     env.RELEASE_PATH = "${env.WORKSPACE}@2/spm-code/EJBServer/release/"
     env.STATIC_CONTENT= "${env.WORKSPACE}@2/spm-code/webclient/build"
@@ -36,14 +47,12 @@ def setBaseEnv()
     env.BASE_IMAGES="${env.DOCKER_REGISTRY}/${env.BASE_IMAGES_PATH}"
     env.CURAM_IMAGES="${env.DOCKER_REGISTRY}/${env.CURAM_IMAGES_PATH}/${params.BRANCH}"
 
-    //below props are corresponding to spm-builder-image container path
-    env.WORKDIR="/home/workdir"
+    //below props are corresponding to server builds environment
     env.J2EE_JAR="${env.UTILDIR}/dockerfiles/spm-curam-builder/spm-curam-builder/dependencies/j2ee.jar"
     env.JAVAMAIL_HOME="${env.UTILDIR}/dockerfiles/spm-curam-builder/spm-curam-builder/dependencies"
     env.SERVER_LOCALE_LIST="${env.SERVER_LOCALE_LIST}"
     env.LOCALE_LIST="${env.LOCALE_LIST}"
     env.SERVER_MODEL_NAME="${env.SERVER_MODEL_NAME}"
-    env.CURAM_DIR="${env.checkoutPath}/Curam"
     env.SERVER_DIR="${env.CURAM_DIR}/EJBServer"
     env.CURAMSDEJ="${env.CURAM_DIR}/CuramSDEJ"
     env.CLIENT_PROJECT_NAME="${env.SERVER_MODEL_NAME}"
