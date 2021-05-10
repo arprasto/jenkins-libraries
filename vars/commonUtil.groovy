@@ -38,8 +38,8 @@ def setBaseEnv()
 
     //below props are corresponding to spm-builder-image container path
     env.WORKDIR="/home/workdir"
-    env.J2EE_JAR="/opt/dependencies/j2ee.jar"
-    env.JAVAMAIL_HOME="/opt/dependencies"
+    env.J2EE_JAR="${env.UTILDIR}/dockerfiles/spm-curam-builder/spm-curam-builder/dependencies/j2ee.jar"
+    env.JAVAMAIL_HOME="${env.UTILDIR}/dockerfiles/spm-curam-builder/spm-curam-builder/dependencies"
     env.SERVER_LOCALE_LIST="${env.SERVER_LOCALE_LIST}"
     env.LOCALE_LIST="${env.LOCALE_LIST}"
     env.SERVER_MODEL_NAME="${env.SERVER_MODEL_NAME}"
@@ -53,7 +53,6 @@ def setBaseEnv()
     env.SDEJ_BUILDFILE="${env.SERVER_DIR}/components/MnHix/scripts/build.xml"
     env.LANG="${env.LANG}"
     env.PATH="${env.PATH}:${env.HELM_HOME}"
-
 }
 
 
@@ -82,7 +81,6 @@ def downloadSourceCode(USE_TAG){
         dir(env.checkoutPath) {
 
         }
-
     }
     else {
 
