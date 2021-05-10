@@ -98,7 +98,7 @@ def SetEnvironment()
     env.CLIENT_DIR="${env.CURAM_DIR}/webclient"
     env.CURAMCDEJ="${env.CURAM_DIR}/CuramCDEJ"
     env.DOCMAKER_HOME="${env.CURAM_DIR}/DocMaker"
-    env.SDEJ_BUILDFILE="${env.SERVER_DIR}/components/MnHix/scripts/build.xml"
+    env.SDEJ_BUILDFILE="${env.SERVER_DIR}/build.xml"
     env.LANG="${env.LANG}"
     env.PATH="${env.PATH}:${env.HELM_HOME}"
 
