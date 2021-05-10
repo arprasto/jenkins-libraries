@@ -119,7 +119,7 @@ def SetEnvironment()
         if [ -d "${env.JENKINS_HOME}/ant_home/apache-ant-1.10.6/bin" ]; then
           echo "ant installation already exists"
           ANT_HOME="${env.JENKINS_HOME}/ant_home/apache-ant-1.10.6"
-          PATH="${env.PATH}:${env.ANT_HOME}/bin"
+          PATH="${env.PATH}:${ANT_HOME}/bin"
         else
             wget https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.6-bin.zip
             unzip -x apache-ant-1.10.6-bin.zip
