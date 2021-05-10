@@ -114,7 +114,6 @@ def SetEnvironment()
     }
 }
 
-
 def dockerlogin()
 {
     withCredentials([usernamePassword(credentialsId: env.DOCKER_CREDS, passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_REG')])
