@@ -10,7 +10,7 @@ def call() {
             #!/bin/bash
             echo "continueing with environment"
             env
-            ant -f ${env.SDEJ_BUILDFILE} -Dprp.noninternedstrings=true
+            ant -f ${env.SDEJ_BUILDFILE} -Dprp.noninternedstrings=true ${STD_SERVER_BUILDS}
         """
       }
     echo "server Build completed"
