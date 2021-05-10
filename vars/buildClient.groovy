@@ -4,16 +4,14 @@ def call() {
     util.SetEnvironment()
 
     echo "${env.CLIENT_DIR}"
-    withAnt(installation: '1.10.6', jdk: 'jdk1.8.0_131') {
-      dir("${env.CLIENT_DIR}"){
-        sh """
-            #!/bin/bash
-            echo "continueing with environment"
-            env
-            chmod +x build.sh
-            ./build.sh ${STD_CLIENT_BUILDS}
-        """
-      }
+    env.ANT_OPTS="-Xmx1400m -Dcmp.maxmemory=1400m -Xbootclasspath/p:${env.CURAMCDEJ}/lib/ext/jar/serializer.jar:${env.CURAMCDEJ}/lib/ext/jar/xercesImpl.jar:${env.CURAMCDEJ}/lib/ext/jar/xalan.jar"
+    dir("${env.CLIENT_DIR}"){
+      sh """
+          #!/bin/bash
+          echo "continueing with environment"
+          env
+          ant -f $CDEJ_BUILDFILE ${STD_CLIENT_BUILDS}
+      """
     }
     echo "client Build completed"
 }

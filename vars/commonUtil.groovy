@@ -99,6 +99,7 @@ def SetEnvironment()
     env.CURAMCDEJ="${env.CURAM_DIR}/CuramCDEJ"
     env.DOCMAKER_HOME="${env.CURAM_DIR}/DocMaker"
     env.SDEJ_BUILDFILE="${env.SERVER_DIR}/build.xml"
+    env.CDEJ_BUILDFILE="${env.CLIENT_DIR}/build.xml"
     env.LANG="${env.LANG}"
     env.PATH="${env.PATH}:${env.HELM_HOME}"
 
