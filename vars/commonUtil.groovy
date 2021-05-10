@@ -53,16 +53,6 @@ def setBaseEnv()
     env.SDEJ_BUILDFILE="${env.SERVER_DIR}/components/MnHix/scripts/build.xml"
     env.LANG="${env.LANG}"
     env.PATH="${env.PATH}:${env.HELM_HOME}"
-    dir("${env.checkoutPath}/Curam"){
-      sh """
-          #!/bin/bash
-          cat SetEnvironment.sh|grep SERVER_COMPONENT_ORDER>SERVER_COMPONENT_ORDER.sh
-          cat SetEnvironment.sh|grep CLIENT_COMPONENT_ORDER>CLIENT_COMPONENT_ORDER.sh
-          chmod +x *.sh
-          ./SERVER_COMPONENT_ORDER.sh
-          ./CLIENT_COMPONENT_ORDER.sh
-      """
-    }
 
 }
 
