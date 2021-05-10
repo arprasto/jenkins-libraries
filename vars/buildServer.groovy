@@ -10,7 +10,7 @@ def call() {
             #!/bin/bash
             echo "continueing with environment"
             env
-            chmod +x build.sh
+            chmod +x ./build.sh
             ./build.sh ${STD_SERVER_BUILDS}
         """
       }
