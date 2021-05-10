@@ -112,6 +112,27 @@ def SetEnvironment()
           ./CLIENT_COMPONENT_ORDER.sh
       """
     }
+
+    dir("${env.JENKINS_HOME}/ant_home"){
+    sh """
+        #!/bin/bash
+        if [ -d "${env.JENKINS_HOME}/ant_home/apache-ant-1.10.6-bin/bin" ]; then
+          echo "ant installation already exists"
+          env.ANT_HOME="${env.JENKINS_HOME}/ant_home/apache-ant-1.10.6-bin"
+          env.PATH="${env.PATH}:${env.ANT_HOME}/bin"          
+        else
+            wget https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.6-bin.zip
+            unzip -x apache-ant-1.10.6-bin.zip
+            if [ -z ${env.ANT_HOME} ]; then
+                echo "setting ANT_HOME"
+                env.ANT_HOME="${env.JENKINS_HOME}/ant_home/apache-ant-1.10.6-bin"
+                env.PATH="${env.PATH}:${env.ANT_HOME}/bin"
+            else
+                echo "ANT_HOME already setup to ${env.ANT_HOME}"
+            fi
+        fi
+    """
+    }
 }
 
 def dockerlogin()
