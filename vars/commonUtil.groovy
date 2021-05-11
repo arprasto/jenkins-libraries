@@ -106,11 +106,10 @@ def SetEnvironment()
     dir("${env.checkoutPath}/Curam"){
       sh """
           #!/bin/bash
-          cat SetEnvironment.sh|grep SERVER_COMPONENT_ORDER>SERVER_COMPONENT_ORDER.sh
-          cat SetEnvironment.sh|grep CLIENT_COMPONENT_ORDER>CLIENT_COMPONENT_ORDER.sh
-          chmod +x *.sh
-          ./SERVER_COMPONENT_ORDER.sh
-          ./CLIENT_COMPONENT_ORDER.sh
+          SERVER_COMP_ORDER = $(cat SetEnvironment.sh|grep SERVER_COMPONENT_ORDER|cut -d'=' -f 2)
+          CLIENT_COMP_ORDER = $(cat SetEnvironment.sh|grep CLIENT_COMPONENT_ORDER|cut -d'=' -f 2)
+          env.SERVER_COMPONENT_ORDER=${SERVER_COMP_ORDER}
+          env.CLIENT_COMPONENT_ORDER=${CLIENT_COMP_ORDER}
       """
     }
 
@@ -125,11 +124,10 @@ def SetEnvironment()
             unzip -x apache-ant-1.10.6-bin.zip
             if [ -z ${env.ANT_HOME} ]; then
                 echo "setting ANT_HOME"
-            else
-                echo "ANT_HOME already setup to ${env.ANT_HOME}"
             fi
         fi
     """
+    echo "${SERVER_COMPONENT_ORDER}"
     env.ANT_HOME="${env.JENKINS_HOME}/ant_home/apache-ant-1.10.6"
     env.PATH="${env.PATH}:${env.ANT_HOME}/bin"
     }
