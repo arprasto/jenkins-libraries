@@ -102,6 +102,7 @@ def SetEnvironment()
     env.CDEJ_BUILDFILE="${env.CLIENT_DIR}/build.xml"
     env.LANG="${env.LANG}"
     env.PATH="${env.PATH}:${env.HELM_HOME}"
+    env.JAVA_TOOL_OPTIONS="-Dfile.encoding=ISO-8859-1"
 
     dir("${env.checkoutPath}/Curam"){
       def SERVER_COMPONENT_ORDER=sh(script: "cat SetEnvironment.sh|grep SERVER_COMPONENT_ORDER|cut -d'=' -f 2", returnStdout: true).toString().trim()
