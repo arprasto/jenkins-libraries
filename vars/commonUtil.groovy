@@ -104,13 +104,10 @@ def SetEnvironment()
     env.PATH="${env.PATH}:${env.HELM_HOME}"
 
     dir("${env.checkoutPath}/Curam"){
-      sh """
-          #!/bin/bash
-          SERVER_COMP_ORDER = "${cat SetEnvironment.sh|grep SERVER_COMPONENT_ORDER|cut -d'=' -f 2}"
-          CLIENT_COMP_ORDER = "${cat SetEnvironment.sh|grep CLIENT_COMPONENT_ORDER|cut -d'=' -f 2}"
-          env.SERVER_COMPONENT_ORDER=${SERVER_COMP_ORDER}
-          env.CLIENT_COMPONENT_ORDER=${CLIENT_COMP_ORDER}
-      """
+      def SERVER_COMPONENT_ORDER=sh(script: "cat SetEnvironment.sh|grep SERVER_COMPONENT_ORDER|cut -d'=' -f 2", returnStdout: true).toString().trim()
+      def CLIENT_COMPONENT_ORDER=sh(script: "cat SetEnvironment.sh|grep CLIENT_COMPONENT_ORDER|cut -d'=' -f 2", returnStdout: true).toString().trim()
+      env.SERVER_COMPONENT_ORDER="${SERVER_COMPONENT_ORDER}"
+      env.CLIENT_COMPONENT_ORDER="${CLIENT_COMPONENT_ORDER}"
     }
 
     dir("${env.JENKINS_HOME}/ant_home")
@@ -127,7 +124,6 @@ def SetEnvironment()
             fi
         fi
     """
-    echo "${SERVER_COMPONENT_ORDER}"
     env.ANT_HOME="${env.JENKINS_HOME}/ant_home/apache-ant-1.10.6"
     env.PATH="${env.PATH}:${env.ANT_HOME}/bin"
     }
