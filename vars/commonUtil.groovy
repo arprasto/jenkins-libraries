@@ -106,8 +106,8 @@ def SetEnvironment()
     dir("${env.checkoutPath}/Curam"){
       sh """
           #!/bin/bash
-          SERVER_COMP_ORDER = $(cat SetEnvironment.sh|grep SERVER_COMPONENT_ORDER|cut -d'=' -f 2)
-          CLIENT_COMP_ORDER = $(cat SetEnvironment.sh|grep CLIENT_COMPONENT_ORDER|cut -d'=' -f 2)
+          SERVER_COMP_ORDER = ${cat SetEnvironment.sh|grep SERVER_COMPONENT_ORDER|cut -d'=' -f 2}
+          CLIENT_COMP_ORDER = ${cat SetEnvironment.sh|grep CLIENT_COMPONENT_ORDER|cut -d'=' -f 2}
           env.SERVER_COMPONENT_ORDER=${SERVER_COMP_ORDER}
           env.CLIENT_COMPONENT_ORDER=${CLIENT_COMP_ORDER}
       """
