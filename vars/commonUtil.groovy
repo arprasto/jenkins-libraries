@@ -130,6 +130,25 @@ def SetEnvironment()
     }
 }
 
+/*
+pre-request
+ANT_HOME
+job-config.properties
+
+#!/bin/bash
+export SERVER_LOCALE_LIST=en_US,en_GB,en
+export LOCALE_LIST=en_US,en_GB,en
+export SERVER_MODEL_NAME=Curam
+export SERVER_DIR=$CURAM_DIR/EJBServer
+export CURAMSDEJ=$CURAM_DIR/CuramSDEJ
+export CLIENT_PROJECT_NAME=Curam
+export CLIENT_DIR=$CURAM_DIR/webclient
+export CURAMCDEJ=$CURAM_DIR/CuramCDEJ
+export CLIENT_COMPONENT_ORDER=custom,PlatformConfig,CommonIntake,Intake,ReferralsLite,PCR,CREOLEProgramRecommendation,SummaryViews,CitizenContextViewer,WorkspaceServices,CitizenWorkspaceAdmin,FundPM,DecisionAssist,DynamicEvidence,CEFWidgets,CMIS,IntelligentEvidenceGathering,IEGAdmin,Datastore,Editors,SupervisorWorkspace,Verification,ServicePlans,sample,CTMInfrastructure,SamplePublicAccess,AdvancedEvidenceSharing,EvidenceBroker,CuramFinancialAdapter,CuramMDAdapter,Advisor,EvidenceSharing,PDC,EvidenceFlow,ValidationManager,SmartNavigator
+export SERVER_COMPONENT_ORDER=custom,ISCommon,HCRAppeal,HCR,Navigator,FederalExchange,HCROnline,HCRCommon,CAAssessmentTracking,AssessmentTr
+
+*/
+
 def dockerlogin()
 {
     withCredentials([usernamePassword(credentialsId: env.DOCKER_CREDS, passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_REG')])
@@ -232,7 +251,6 @@ def updateBootstrapProperties(PROPERTY,VALUE){
         properties.load(propertiesFile.newDataInputStream())
         echo "setting ${PROPERTY}=${VALUE}"
         properties.setProperty("${PROPERTY}","${VALUE}")
-        //properties.store(propertiesFile.newWriter("UTF-8"),null)
         PrintWriter out = new PrintWriter( propertiesFile.newWriter("UTF-8") )
         Set<String> keys = properties.keySet()
         for( String key : keys ) {
